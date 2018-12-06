@@ -1,0 +1,59 @@
+public static void main(String[] args) throws FileNotFoundException {
+
+        Scanner in = new Scanner(System.in);
+        String[] jogos = new String[N_JOGOS];
+        String[][] participantes = new String[MAX_PARTICIPANTES][N_CAMPOS_INFO];
+        int nParticipantes = 0;
+        double[][] prémios = new double[MAX_PARTICIPANTES][N_JOGOS];
+        int op;
+        do {
+            op = menuprojeto.menu();
+            switch (op) {
+                case 1:
+                    System.out.println("Qual a data do evento (AAAAMMDD)?");
+                    String nomeFich = in.nextLine();
+                    if (ex1aprog.carregarJogosDoEvento(nomeFich + ".txt", jogos)) {
+                        System.out.println("Jogos carregados com sucesso");
+                    } else {
+                        System.out.println("Erro no carregamento dos jogos. Verifique ficheiro");
+                    }
+                    break;
+                case 2:
+                    ex2aprog.visualizarInfoJogos(jogos);
+
+                    break;
+                case 3:
+                    System.out.println("Escreva o nome do ficheiro com a informação da sua equipa");
+                    String infoFich = in.next();
+                    nParticipantes = ex3aprog.lerInfoFicheiro(infoFich + ".txt", participantes, nParticipantes);
+
+// …
+                    break;
+                case 4:
+                    ex4aprog.listagemPaginada(participantes, nParticipantes);
+                    break;
+
+                case 5:
+                    System.out.println("Introduza o Email do participante que prentede alterar os dados");
+                    String eMail = in.next();
+                    ex5aprog.actualizarInfoParticipante(eMail, participantes, nParticipantes);
+                    break;
+                case 6:
+                    System.out.println("Introduza o nome do ficheiro com os resultados dos jogos");
+                    String resulFich = in.next();
+                    ex6aprog.procurarIdNoTituloDoFicheiro(resulFich, jogos,nParticipantes);
+                       break;
+                case 0:
+                    System.out.println(
+                            "Já fez todas as gravações necessárias? Confirma terminar(s/n)?");
+                    char resp = (in.next()).charAt(0);
+                    if (resp != 's' && resp != 'S') {
+                        op = 1;
+                    }
+                    break;
+                default:
+                    System.out.println("Opção incorreta. Repita");
+                    break;
+            }
+        } while (op != 0);
+    }
