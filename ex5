@@ -1,0 +1,100 @@
+import java.util.Formatter;
+import java.util.Scanner;
+import static projeto.isep.aprog.Constantes.N_CAMPOS_INFO;
+import static projeto.isep.aprog.ex3aprog.pesquisarElemento;
+
+/**
+ *
+ * @author sergi
+ */
+public class ex5aprog {
+
+    public static boolean actualizarInfoParticipante(String eMail, String[][] matriz, int nElems) {
+        Scanner in = new Scanner(System.in);
+        int pos;
+        if ((pos = pesquisarElemento(eMail, nElems, matriz)) > -1) {
+            int op;
+            do {
+                Formatter out = new Formatter(System.out);
+                mostrarParticipante(out, matriz[pos]);
+                op = menuInfoParticipante();
+                switch (op) {
+                    case 1:
+                        int colunaEmail = 0;
+                        System.out.println("Novo EMail:");
+                        String Email = in.nextLine();
+                        boolean emailVerificado = verificarEmail(Email, matriz);
+                        alterarEmail(emailVerificado, Email, matriz, pos, colunaEmail);
+
+                        break;
+
+                    case 2:
+                        System.out.println("Novo nome:");
+                        matriz[pos][1] = in.nextLine();
+                        break;
+                    case 3:
+                        System.out.println("Nova data nascimento:");
+                        matriz[pos][2] = in.nextLine();
+                        break;
+                    case 0:
+                        System.out.println("FIM");
+                        break;
+                    default:
+                        System.out.println("Opção incorreta");
+                        break;
+                }
+            } while (op != 0);
+            return true;
+        }
+        System.out.printf("O participante %s não foi encontrado!", eMail);
+        return false;
+
+    }
+
+    public static boolean verificarEmail(String Email, String[][] matriz) {
+        for (int i = 0; i < matriz.length; i++) {
+            if (matriz[i][0].equals(Email)) {
+                return true;
+                
+            } 
+        }
+        return false;
+
+    }
+
+    public static void alterarEmail(boolean emailVerificado, String Email, String[][] matriz, int pos, int colunaEmail) {
+        if (emailVerificado == false) {
+            if (!Email.equals(matriz[pos][colunaEmail])) {
+                matriz[pos][colunaEmail] = Email;
+                System.out.println("O seu Email foi alterado");
+            }
+        } else {
+            System.out.println("Este Email já existe");
+        }
+
+    }
+
+    private static void mostrarParticipante(Formatter out, String[] participante) {
+        for (int j = 0; j < N_CAMPOS_INFO; j++) {
+            if (j == 1) {
+                out.format("%30s;", participante[j]);
+            } else {
+                out.format("%12s;", participante[j]);
+            }
+        }
+    }
+
+    private static int menuInfoParticipante() {
+        Scanner in = new Scanner(System.in);
+        String texto = "ATUALIZAR INFORMAÇÃO DE PARTICIPANTE"
+                + "\n EMail ... 1"
+                + "\n NOME ... 2"
+                + "\n DATA NASCIMENTO ... 3"
+                + "\n TERMINAR ... 0"
+                + "\n\nQUAL A SUA OPÇÃO?";
+        System.out.printf("%n%s%n", texto);
+        int op = in.nextInt();
+        in.nextLine();
+        return op;
+    }
+}
