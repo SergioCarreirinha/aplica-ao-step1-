@@ -1,0 +1,89 @@
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.Formatter;
+import java.util.Scanner;
+import static projeto.isep.aprog.Constantes.MAX_PARTICIPANTES;
+import static projeto.isep.aprog.Constantes.N_CAMPOS_INFO;
+import static projeto.isep.aprog.Constantes.SEPARADOR_DADOS_FICH;
+
+/**
+ *
+ * @author sergi
+ */
+public class ex3aprog {
+
+    //                           RESPOSTA 3
+    /**
+     * * Carrega informação do ficheiro de texto para memória
+     *
+     * @param nomeFich - nome do ficheiro que contem a informação dos participantes
+     * @param info - matriz de strings para guardar a informação dos participantes
+     * @param nElems - número de elementos já existentes na matriz
+     * @return o número final de elementos na matriz
+     */
+    public static int lerInfoFicheiro(String nomeFich, String[][] info, int nElems) throws
+            FileNotFoundException {
+        Scanner fInput = new Scanner(new File(nomeFich));
+        int nElemsInic = nElems;
+        while (fInput.hasNext() && nElems < MAX_PARTICIPANTES) {
+            String linha = fInput.nextLine();
+// Verifica se linha não está em branco
+            if (linha.trim().length() > 0) {
+                nElems = guardarDados(linha, info, nElems);
+            }
+        }
+        fInput.close();
+        if (nElems - nElemsInic != 3) {
+            nElems = nElemsInic;
+        }
+        return nElems;
+    }
+
+    /**
+     * Acede à informação de uma linha do ficheiro e guarda-a na estrutura dados se ainda não existir linha com aquele valor no 1º elemento
+     *
+     * @param linha - String com o conteúdo de uma linha do ficheiro
+     * @param info - matriz de strings com a informação lida do ficheiro
+     * @param nElems - número de elementos existentes na matriz
+     * @return - o novo número de elementos da matriz
+     */
+    private static int guardarDados(String linha, String[][] info, int nElems) {
+        String[] temp = linha.split(SEPARADOR_DADOS_FICH);
+        if (temp.length == N_CAMPOS_INFO) {
+            String num = temp[0].trim();
+            int pos = pesquisarEmail(num, nElems, info);
+            if (pos == -1) {
+                for (int i = 0; i < N_CAMPOS_INFO; i++) {
+                    info[nElems][i] = temp[i].trim();
+                }
+                nElems++;
+            }
+        }
+        return nElems;
+    }
+
+    private static int pesquisarEmail(String email, int numeroParticipantes, String[][] participantes) {
+        return pesquisarElemento(email, numeroParticipantes, participantes);
+    }
+
+    /*
+    pesquisaEmail(String email, String[][] participantes, int numeroParticipantes){
+    
+    }*/
+    /**
+     * Pesquisar linha de matriz por primeiro elemento da linha
+     *
+     * @param valor - elemento a pesquisar
+     * @param nEl - nº de elementos da matriz
+     * @param matriz - matriz com a informação
+     * @return -1 se não existe linha com esse valor ou o nº da linha cujo primeiro elemento é esse valor
+     */
+    public static int pesquisarElemento(String valor, int nEl, String[][] mat) {
+        for (int i = 0; i < nEl; i++) {
+            if (mat[i][0].equals(valor)) {
+                return i;
+            }
+        }
+        return -1;
+    }
+}
