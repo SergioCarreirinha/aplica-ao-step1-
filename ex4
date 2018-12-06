@@ -1,0 +1,61 @@
+import java.util.Scanner;
+import static projeto.isep.aprog.Constantes.MAX_LINHAS_PAGINA;
+import static projeto.isep.aprog.Constantes.N_CAMPOS_INFO;
+
+/**
+ *
+ * @author sergi
+ */
+public class ex4aprog {
+    //                           RESPOSTA 4
+    /**
+     * Visualizar toda a informação ( paginada)dos participantes existente em
+     * memória
+     *
+     * @param matriz- matriz com a informação a listar
+     * @param nEl – nº de linhas com informação
+     */
+    public static void listagemPaginada(String[][] matriz, int nEl) {
+        Scanner in = new Scanner(System.in);
+        int contPaginas = 0;
+        for (int i = 0; i < nEl; i++) {
+            if (i % MAX_LINHAS_PAGINA == 0) {
+                if (contPaginas > 0) {
+                    System.out.println("\nPara continuar digite ENTER\n");
+                    in.nextLine();
+                }
+
+                contPaginas++;
+                System.out.println("\nPÁGINA: " + contPaginas);
+                System.out.printf("%56s%n", "PARTICIPANTES");
+                System.out.printf("%75s%n", "---------------------------------------");
+            }
+
+            imprimirDadosParticipantes(matriz, i);
+            
+            System.out.println("");
+        }
+        System.out.println("\nPara continuar digite ENTER\n");
+        in.nextLine();
+    }
+
+    private static void imprimirDadosParticipantes(String[][] matriz, int indexParticipantes) {
+        for (int j = 0; j < N_CAMPOS_INFO; j++) {
+            if (j == 1) {
+                imprimirNomeParticipante(matriz, indexParticipantes, j);
+            } else {
+                imprimirOutrasInformacoesParticipante(matriz, indexParticipantes, j);
+            }
+        }
+    }
+
+    private static void imprimirOutrasInformacoesParticipante(String[][] matriz, int indexParticipantes, int j) {
+        System.out.printf("%10s", matriz[indexParticipantes][j]);
+    }
+
+    private static void imprimirNomeParticipante(String[][] matriz, int indexParticipantes, int j) {
+        System.out.printf("%30s", matriz[indexParticipantes][j]);
+    }
+
+    
+}
