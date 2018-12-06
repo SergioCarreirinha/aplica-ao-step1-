@@ -1,0 +1,28 @@
+import static projeto.isep.aprog.Constantes.N_JOGOS;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.Scanner;
+
+
+
+public class ex1aprog {
+
+    public static boolean carregarJogosDoEvento(String nomeFichJogos, String[] jogos)
+            throws FileNotFoundException {
+        
+        Scanner fInput = new Scanner(new File(nomeFichJogos));
+        int i = 0;
+        while (fInput.hasNextLine() && i < N_JOGOS) {
+            String linha = fInput.nextLine();
+            if ((linha.trim()).length() > 0) {
+                jogos[i] = linha;
+                i++;
+            }
+        }
+        fInput.close();
+        if (i == N_JOGOS) {
+            return true;
+        }
+        return false;
+    }
+}
