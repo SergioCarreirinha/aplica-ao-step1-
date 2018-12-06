@@ -1,0 +1,5 @@
+import java.io.FileNotFoundException;
+import java.util.Scanner;
+import static projeto.isep.aprog.Constantes.MAX_PARTICIPANTES;
+import static projeto.isep.aprog.Constantes.N_CAMPOS_INFO;
+import static projeto.isep.aprog.Constantes.N_JOGOS;
